@@ -286,19 +286,19 @@ Syntax
 
 .. _interoperability:
 
-Interoperability With Older Contracts
+古いコントラクトとの相互運用性
 =====================================
 
-It is still possible to interface with contracts written for Solidity versions prior to
-v0.5.0 (or the other way around) by defining interfaces for them.
-Consider you have the following pre-0.5.0 contract already deployed:
+依然として、v0.5.0以前のSolidityバージョンで書かれたコントラクト(またはその逆)とインターフェースを定義することで
+やり取りを行うことが可能です。
+既にデプロイされている以下のような0.5.0以前のコントラクトがあると考えてみましょう。
 
 .. code-block:: solidity
 
     // SPDX-License-Identifier: GPL-3.0
     pragma solidity ^0.4.25;
-    // This will report a warning until version 0.4.25 of the compiler
-    // This will not compile after 0.5.0
+    // このコントラクトは、コンパイラのバージョン0.4.25まで警告をレポートします。
+    // 0.5.0以降では、コンパイルされません。
     contract OldContract {
         function someOldFunction(uint8 a) {
             //...
@@ -309,7 +309,7 @@ Consider you have the following pre-0.5.0 contract already deployed:
         // ...
     }
 
-This will no longer compile with Solidity v0.5.0. However, you can define a compatible interface for it:
+このコントラクトは、Solidity v0.5.0ではコンパイルすることができません。しかし、以下のように互換性のあるインターフェースを定義することができます。
 
 .. code-block:: solidity
 
@@ -320,14 +320,15 @@ This will no longer compile with Solidity v0.5.0. However, you can define a comp
         function anotherOldFunction() external returns (bool);
     }
 
-Note that we did not declare ``anotherOldFunction`` to be ``view``, despite it being declared ``constant`` in the original
-contract. This is due to the fact that starting with Solidity v0.5.0 ``staticcall`` is used to call ``view`` functions.
-Prior to v0.5.0 the ``constant`` keyword was not enforced, so calling a function declared ``constant`` with ``staticcall``
-may still revert, since the ``constant`` function may still attempt to modify storage. Consequently, when defining an
-interface for older contracts, you should only use ``view`` in place of ``constant`` in case you are absolutely sure that
-the function will work with ``staticcall``.
 
-Given the interface defined above, you can now easily use the already deployed pre-0.5.0 contract:
+元のコントラクトで``constant``と宣言されていたのにも関わらず、``anotherOldFunction``を``view``で宣言しなかったことに注意してください。
+これは、Solidity v0.5.0から``view``関数を呼び出すのに``staticcall``が使用されるためです。
+v0.5.0より前のバージョンでは、``constant``キーワードが強制されていなかったため、``constant``と宣言された関数を``staticcall``で呼び出すとリバートします。
+これは、``constant``関数がストレージを変更する可能性があるためです。そのため、古いコントラクトのインターフェースを定義する際には、
+関数が``staticcall``で動作することを絶対に確信している場合にのみ、``constant``ではなく``view``を使用してください。
+
+
+上記で定義したインターフェースを使用すると、既にデプロイされている0.5.0よりも前のコントラクトを以下のように簡単に使用することができます。
 
 .. code-block:: solidity
 
@@ -346,13 +347,13 @@ Given the interface defined above, you can now easily use the already deployed p
         }
     }
 
-Similarly, pre-0.5.0 libraries can be used by defining the functions of the library without implementation and
-supplying the address of the pre-0.5.0 library during linking (see :ref:`commandline-compiler` for how to use the
-commandline compiler for linking):
+同様に、0.5.0より前のバージョンのライブラリも、未実装のライブラリ関数を定義することで使用することができます。
+リンク時に0.5.0より前のバージョンのライブラリアドレスを提供します
+(コマンドラインコンパラでリンクする方法は、:ref:`コマンドラインコンパイラ<commandline-compiler>`を参照してください)。
 
 .. code-block:: solidity
 
-    // This will not compile after 0.6.0
+    // 0.6.0以降は、コンパイルされません。
     // SPDX-License-Identifier: GPL-3.0
     pragma solidity ^0.5.0;
 
@@ -367,13 +368,13 @@ commandline compiler for linking):
     }
 
 
-Example
+例
 =======
 
-The following example shows a contract and its updated version for Solidity
-v0.5.0 with some of the changes listed in this section.
+次の例では、元のコントラクトに対して、このセクションでリストされている変更のいくつかを適用して、
+Solidity v0.5.0に更新したコントラクトを示します。
 
-Old version:
+古いバージョン:
 
 .. code-block:: solidity
 
@@ -436,7 +437,7 @@ Old version:
         }
     }
 
-New version:
+新しいバージョン:
 
 .. code-block:: solidity
 
