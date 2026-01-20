@@ -371,8 +371,8 @@ v0.5.0より前のバージョンでは、``constant``キーワードが強制�
 例
 =======
 
-次の例では、元のコントラクトに対して、このセクションでリストされている変更のいくつかを適用して、
-Solidity v0.5.0に更新したコントラクトを示します。
+次の例では、元のコントラクトに対して、このセクションでリストされている変更のいくつかを適用することで
+Solidity v0.5.0に更新した新しいコントラクトを示します。
 
 古いバージョン:
 
@@ -380,7 +380,7 @@ Solidity v0.5.0に更新したコントラクトを示します。
 
     // SPDX-License-Identifier: GPL-3.0
     pragma solidity ^0.4.25;
-    // This will not compile after 0.5.0
+    // これは、0.5.0以降のバージョンでコンパイルされません。
 
     contract OtherContract {
         uint x;
@@ -394,16 +394,16 @@ Solidity v0.5.0に更新したコントラクトを示します。
         OtherContract other;
         uint myNumber;
 
-        // Function mutability not provided, not an error.
+        // 関数ミュータビリティが提供されていなく、エラーではありません。
         function someInteger() internal returns (uint) { return 2; }
 
-        // Function visibility not provided, not an error.
-        // Function mutability not provided, not an error.
+        // 関数の可視性が提供されていなく、エラーではありません。
+      　// 関数ミュータビリティが提供されていなく、エラーではありません。
         function f(uint x) returns (bytes) {
-            // Var is fine in this version.
+            // varは、このバージョンでは有効です。
             var z = someInteger();
             x += z;
-            // Throw is fine in this version.
+            // throwは、このバージョンでは有効です。
             if (x > 100)
                 throw;
             bytes memory b = new bytes(x);
@@ -412,26 +412,26 @@ Solidity v0.5.0に更新したコントラクトを示します。
             do {
                 x += 1;
                 if (x > 10) continue;
-                // 'Continue' causes an infinite loop.
+                // 'continue'は、無限ループを引き起こします。
             } while (x < 11);
-            // Call returns only a Bool.
+            // callは、bool値を返します。
             bool success = address(other).call("f");
             if (!success)
                 revert();
             else {
-                // Local variables could be declared after their use.
+                // ローカル変数は、使用後に宣言することができます。
                 int y;
             }
             return b;
         }
 
-        // No need for an explicit data location for 'arr'
+        // `arr`の明示的なデータロケーションは不要です。
         function g(uint[] arr, bytes8 x, OtherContract otherContract) public {
             otherContract.transfer(1 ether);
 
-            // Since uint32 (4 bytes) is smaller than bytes8 (8 bytes),
-            // the first 4 bytes of x will be lost. This might lead to
-            // unexpected behavior since bytesX are right padded.
+            // uint32 (4バイト) は、bytes8 (8バイト) よりも小さいため、
+            // xの最初の4バイトが失われます。これは、betesXが右からパディングされるため、
+            // 予期しない動作を引き起こす可能性があります。
             uint32 y = uint32(x);
             myNumber += y + msg.value;
         }
@@ -443,7 +443,7 @@ Solidity v0.5.0に更新したコントラクトを示します。
 
     // SPDX-License-Identifier: GPL-3.0
     pragma solidity ^0.5.0;
-    // This will not compile after 0.6.0
+    // これは、0.6.0以降のバージョンでコンパイルされません。
 
     contract OtherContract {
         uint x;
@@ -457,27 +457,27 @@ Solidity v0.5.0に更新したコントラクトを示します。
         OtherContract other;
         uint myNumber;
 
-        // Function mutability must be specified.
+        // 関数ミュータビリティを指定する必要があります。
         function someInteger() internal pure returns (uint) { return 2; }
 
-        // Function visibility must be specified.
-        // Function mutability must be specified.
+        // 関数可視性を指定する必要があります。
+        // 関数ミュータビリティを指定する必要があります。
         function f(uint x) public returns (bytes memory) {
-            // The type must now be explicitly given.
+            // 型を明示的に指定する必要があります。
             uint z = someInteger();
             x += z;
-            // Throw is now disallowed.
+            // throwは廃止されました。
             require(x <= 100);
             int y = -3 >> 1;
             require(y == -2);
             do {
                 x += 1;
                 if (x > 10) continue;
-                // 'Continue' jumps to the condition below.
+                // 'continue'は、以下の条件にジャンプします。
             } while (x < 11);
 
-            // Call returns (bool, bytes).
-            // Data location must be specified.
+            // Call が (bool, bytes) を返します。
+            // データロケーションを指定する必要があります。
             (bool success, bytes memory data) = address(other).call("f");
             if (!success)
                 revert();
@@ -485,38 +485,38 @@ Solidity v0.5.0に更新したコントラクトを示します。
         }
 
         using AddressMakePayable for address;
-        // Data location for 'arr' must be specified
+        // 'arr'のデータロケーションを指定する必要があります。
         function g(uint[] memory /* arr */, bytes8 x, OtherContract otherContract, address unknownContract) public payable {
-            // 'otherContract.transfer' is not provided.
-            // Since the code of 'OtherContract' is known and has the fallback
-            // function, address(otherContract) has type 'address payable'.
+            // 'otherContract.transfer'は提供されていません。
+            // 'OtherContract'のコードは既知であり、fallback関数があるため、
+            // address(otherContract)は、'address payable'型をもちます。
             address(otherContract).transfer(1 ether);
 
-            // 'unknownContract.transfer' is not provided.
-            // 'address(unknownContract).transfer' is not provided
-            // since 'address(unknownContract)' is not 'address payable'.
-            // If the function takes an 'address' which you want to send
-            // funds to, you can convert it to 'address payable' via 'uint160'.
-            // Note: This is not recommended and the explicit type
-            // 'address payable' should be used whenever possible.
-            // To increase clarity, we suggest the use of a library for
-            // the conversion (provided after the contract in this example).
+            // 'unknownContract.transfer'は提供されていません。
+            // 'address(unknownContract)'は、'address payable'ではないため、
+            // 'address(unknownContract).transfer'は提供されていません。
+            // 関数が資金を送信したい'address'を受け取る場合、
+            // 'uint160'を介して'address payable'に変換できます。
+            // 注意: この方法は、推奨されていません。
+            // 可能な限り、明示的な型である'address payable'を使用してください。
+            // より明確にするために、変換のためのライブラリを使用することをお勧めします
+            // (このコントラクトの後に、ライブラリの例を提供しています)。
             address payable addr = unknownContract.makePayable();
             require(addr.send(1 ether));
 
-            // Since uint32 (4 bytes) is smaller than bytes8 (8 bytes),
-            // the conversion is not allowed.
-            // We need to convert to a common size first:
-            bytes4 x4 = bytes4(x); // Padding happens on the right
-            uint32 y = uint32(x4); // Conversion is consistent
-            // 'msg.value' cannot be used in a 'non-payable' function.
-            // We need to make the function payable
+            // uint32 (4バイト)は、bytes8 (8バイト)よりも小さいため、
+            // 変換が禁止されています。
+            // 最初に共通のサイズに変換する必要があります。
+            bytes4 x4 = bytes4(x); // 右からパディングされます。
+            uint32 y = uint32(x4); // 変換に一貫性があります。
+            // 'msg.value'は、'non-payable'関数で使用できません。
+            // 関数をpayableにする必要があります
             myNumber += y + msg.value;
         }
     }
 
-    // We can define a library for explicitly converting ``address``
-    // to ``address payable`` as a workaround.
+    // ワークアラウンドとして、明示的に``address``を``address payable``に変換するためのライブラリを定義できます。
+    // 変換するためのライブラリを定義できます。
     library AddressMakePayable {
         function makePayable(address x) internal pure returns (address payable) {
             return address(uint160(x));
