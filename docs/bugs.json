@@ -74,8 +74,8 @@
     {
         "uid": "SOL-2022-5",
         "name": "DirtyBytesArrayToStorage",
-        "summary": "Copying ``bytes`` arrays from memory or calldata to storage may result in dirty storage values.",
-        "description": "Copying ``bytes`` arrays from memory or calldata to storage is done in chunks of 32 bytes even if the length is not a multiple of 32. Thereby, extra bytes past the end of the array may be copied from calldata or memory to storage. These dirty bytes may then become observable after a ``.push()`` without arguments to the bytes array in storage, i.e. such a push will not result in a zero value at the end of the array as expected. This bug only affects the legacy code generation pipeline, the new code generation pipeline via IR is not affected.",
+        "summary": "メモリーまたはcalldataからストレージへ``bytes``配列をコピーすると、ストレージの値が汚染されることがある。",
+        "description": "メモリーやcalldataからストレージに``bytes``配列をコピーすると、32の倍数長でない場合でも32バイト単位のチャンクで行われます。そのため、配列の末尾を超える余分なバイトがcalldataやメモリーからストレージにコピーされる可能性があります。これらのダーティーバイトは、ストレージ内のバイト配列に引数なしの``.push()``を実行した後に観測可能になることがあります。すなわち、このようpushは、配列の末尾で予期したとおりにゼロ値を返しません。このバグは、レガシーコード生成パイプラインのみに影響し、IR経由の新しいコード生成パイプラインには影響しません。",
         "link": "https://blog.soliditylang.org/2022/06/15/dirty-bytes-array-to-storage-bug/",
         "introduced": "0.0.1",
         "fixed": "0.8.15",
