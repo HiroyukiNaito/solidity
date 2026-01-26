@@ -35,7 +35,7 @@
     {
         "uid": "SOL-2023-1",
         "name": "MissingSideEffectsOnSelectorAccess",
-        "summary": "レガシーのコード生成において、複雑な式にある``.selector``メンバーへのアクセスすると、式が評価されない。",
+        "summary": "レガシーコード生成において、複雑な式にある``.selector``メンバーにアクセスすると、式が評価されない。",
         "description": "代入、関数呼び出し、条件文などの副作用がある式の``.selector``メンバーにアクセスすると、レガシーコード生成においてその式が評価されないことがあります。このバグは、式全体がコンパイル時に評価されるかどうかに関係なく使用される関数がコンパイル時に既知である式で起こります。IRパイプラインによって生成されたコードでは、予期したとおりに動作し、影響がないことに注意してください。",
         "link": "https://blog.soliditylang.org/2023/07/19/missing-side-effects-on-selector-access-bug/",
         "introduced": "0.6.2",
@@ -48,8 +48,8 @@
     {
         "uid": "SOL-2022-7",
         "name": "StorageWriteRemovalBeforeConditionalTermination",
-        "summary": "Calling functions that conditionally terminate the external EVM call using the assembly statements ``return(...)`` or ``stop()`` may result in incorrect removals of prior storage writes.",
-        "description": "A call to a Yul function that conditionally terminates the external EVM call could result in prior storage writes being incorrectly removed by the Yul optimizer. This used to happen in cases in which it would have been valid to remove the store, if the Yul function in question never actually terminated the external call, and the control flow always returned back to the caller instead. Conditional termination within the same Yul block instead of within a called function was not affected. In Solidity with optimized via-IR code generation, any storage write before a function conditionally calling ``return(...)`` or ``stop()`` in inline assembly, may have been incorrectly removed, whenever it would have been valid to remove the write without the ``return(...)`` or ``stop()``. In optimized legacy code generation, only inline assembly that did not refer to any Solidity variables and that involved conditionally-terminating user-defined assembly functions could be affected.",
+        "summary": "アセンブリステートメント``return(...)``または``stop()``を使用して、外部EVM呼び出しを条件付きで終了する関数を呼び出すと、以前のストレージ書き込みが誤って削除される可能性。",
+        "description": "外部EVM呼び出しを条件好きで終了するYul関数を呼び出すと、Yulオプティマイザーによって以前のストレージ書き込みが削除される可能性がありました。問題のYul関数が実際には外部呼出しを終了せず、代わりに制御フローが常に呼び出し元に戻る場合、ストアを削除することが有効なケースで発生していました。呼び出された関数内ではなく、同じYulブロック内の条件付きの終了では、影響はありませんでした。最適化されたvia-IRコード生成を伴うSolidityでは、インラインアセンブリの ``return(...)``や``stop()``を条件付きで呼び出す関数の前のストレージ書き込みが、 ``return(...)``や``stop()``を使用しないで書き込みを削除するのが有効なケースにおいても、誤って削除される可能性がありました。最適化されたレガシーコード生成においては、Solidity変数を参照せず、条件付きで終了するユーザー定義のアセンブリ関数を含むインラインアセンブリのみが影響する可能性がありました。",
         "link": "https://blog.soliditylang.org/2022/09/08/storage-write-removal-before-conditional-termination/",
         "introduced": "0.8.13",
         "fixed": "0.8.17",
