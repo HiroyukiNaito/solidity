@@ -147,8 +147,8 @@
     {
         "uid": "SOL-2021-2",
         "name": "ABIDecodeTwoDimensionalArrayMemory",
-        "summary": "If used on memory byte arrays, result of the function ``abi.decode`` can depend on the contents of memory outside of the actual byte array that is decoded.",
-        "description": "The ABI specification uses pointers to data areas for everything that is dynamically-sized. When decoding data from memory (instead of calldata), the ABI decoder did not properly validate some of these pointers. More specifically, it was possible to use large values for the pointers inside arrays such that computing the offset resulted in an undetected overflow. This could lead to these pointers targeting areas in memory outside of the actual area to be decoded. This way, it was possible for ``abi.decode`` to return different values for the same encoded byte array.",
+        "summary": "関数``abi.decode``がメモリーバイト配列で使用される場合、結果が実際にデコードされるバイト配列にあるメモリーの外側のコンテンツに依存する可能性。",
+        "description": "ABI仕様において、動的サイズのすべてのデータエリアにポインターを使用します。メモリー(calldataではない)からデータをデコードする際、ABIデコーダーは一部のポインターを適切に検証していませんでした。具体的には、配列内のポインターで大きな値を使用して、オフセットの計算で検知されないオーバーフローが発生する可能性がありました。これにより、該当のポインターが実際のエリアの外側のメモリーにあるエリアをターゲットにするため、``abi.decode``が同様のエンコードされたバイト配列に対して異なる値を返す可能性がありました。",
         "link": "https://blog.soliditylang.org/2021/04/21/decoding-from-memory-bug/",
         "introduced": "0.4.16",
         "fixed": "0.8.4",
