@@ -117,8 +117,8 @@
     {
         "uid": "SOL-2022-1",
         "name": "AbiEncodeCallLiteralAsFixedBytesBug",
-        "summary": "Literals used for a fixed length bytes parameter in ``abi.encodeCall`` were encoded incorrectly.",
-        "description": "For the encoding, the compiler only considered the types of the expressions in the second argument of ``abi.encodeCall`` itself, but not the parameter types of the function given as first argument. In almost all cases the abi encoding of the type of the expression matches the abi encoding of the parameter type of the given function. This is because the type checker ensures the expression is implicitly convertible to the respective parameter type. However this is not true for number literals used for fixed bytes types shorter than 32 bytes, nor for string literals used for any fixed bytes type. Number literals were encoded as numbers instead of being shifted to become left-aligned. String literals were encoded as dynamically sized memory strings instead of being converted to a left-aligned bytes value.",
+        "summary": "``abi.encodeCall``の固定長バイトパラメータに使用されるリテラルが誤ってエンコードされる。",
+        "description": "エンコーディングでは、``abi.encodeCall``自体の2番目の引数にある式を考慮しており、最初の引数として渡された関数のパラメータ型を考慮していませんでした。ほとんどのケースにおいて、式の型のabiエンコーディングは、与えられた関数のパラメータ型のabiエンコーディングと一致します。この理由は、式をそれぞれのパラメータ型へ暗黙的に変換可能であることを型チェッカーが保証するためです。しかし、32バイトよりも短い固定バイト型が使用される数値リテラルや任意の固定バイト型が使用される文字列リテラルには当てはまりませんでした。数値リテラルは、左揃えになるようにシフトされるのではなく、数値としてエンコードされていました。文字列リテラルは、左揃えのバイト値に変換されるのではなく、動的サイズのメモリー文字列としてエンコードされていました。",
         "link": "https://blog.soliditylang.org/2022/03/16/encodecall-bug/",
         "introduced": "0.8.11",
         "fixed": "0.8.13",
