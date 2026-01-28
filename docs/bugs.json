@@ -137,8 +137,8 @@
     {
         "uid": "SOL-2021-3",
         "name": "SignedImmutables",
-        "summary": "Immutable variables of signed integer type shorter than 256 bits can lead to values with invalid higher order bits if inline assembly is used.",
-        "description": "When immutable variables of signed integer type shorter than 256 bits are read, their higher order bits were unconditionally set to zero. The correct operation would be to sign-extend the value, i.e. set the higher order bits to one if the sign bit is one. This sign-extension is performed by Solidity just prior to when it matters, i.e. when a value is stored in memory, when it is compared or when a division is performed. Because of that, to our knowledge, the only way to access the value in its unclean state is by reading it through inline assembly.",
+        "summary": "256ビット未満の符号付き整数型のイミュータブル変数で、インラインアセンブリが使用されると、無効な上位ビットもつ値になる可能性。",
+        "description": "256ビット未満の符号付き整数型のイミュータブル変数が読み込まれる時に、上位ビットが無条件でゼロに設定されていました。正しい操作は、値の符号拡張となります。つまり、符号ビットが1ならば、上位ビットに1を設定します。以前は、この符号拡張がSolidityによって処理されていました。例えば、メモリーに値が格納された時、比較時、除算時です。そのため、インラインアセンブリを通して読み込むことによってのみですが、クリーンではない状態の値にアクセス可能となっていました。",
         "link": "https://blog.soliditylang.org/2021/09/29/signed-immutables-bug/",
         "introduced": "0.6.5",
         "fixed": "0.8.9",
