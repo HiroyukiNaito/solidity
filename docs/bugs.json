@@ -160,8 +160,8 @@
     {
         "uid": "SOL-2021-1",
         "name": "KeccakCaching",
-        "summary": "The bytecode optimizer incorrectly reused previously evaluated Keccak-256 hashes. You are unlikely to be affected if you do not compute Keccak-256 hashes in inline assembly.",
-        "description": "Solidity's bytecode optimizer has a step that can compute Keccak-256 hashes, if the contents of the memory are known during compilation time. This step also has a mechanism to determine that two Keccak-256 hashes are equal even if the values in memory are not known during compile time. This mechanism had a bug where Keccak-256 of the same memory content, but different sizes were considered equal. More specifically, ``keccak256(mpos1, length1)`` and ``keccak256(mpos2, length2)`` in some cases were considered equal if ``length1`` and ``length2``, when rounded up to nearest multiple of 32 were the same, and when the memory contents at ``mpos1`` and ``mpos2`` can be deduced to be equal. You maybe affected if you compute multiple Keccak-256 hashes of the same content, but with different lengths inside inline assembly. You are unaffected if your code uses ``keccak256`` with a length that is not a compile-time constant or if it is always a multiple of 32.",
+        "summary": "バイトコードオプティマイザーが誤って前に評価したKeccak-256ハッシュを再利用していました。インラインアセンブリでKecccak-256ハッシュを計算していない場合は、これが影響する可能性は低くなります。",
+        "description": "Solidityのバイトコードオプティマイザーは、コンパイル時にメモリーの内容が既知の場合、Keccak-256ハッシュを計算可能なステップを持ちます。このステップには、コンパイル時にメモリーの値が不明な場合であっても、2つのKeccak-256ハッシュが等しいことを判定するメカニズムがあります。このメカニズムにバグがあり、Keccak-256が同等のメモリー内容でサイズが異なる場合に等しいと判定していました。具体的には、``keccak256(mpos1, length1)``と``keccak256(mpos2, length2)``のいくつかの状況において、``length1``と``length2``が32の倍数で切り上げられて等しくなり、 ``mpos1``と``mpos2``のメモリー内容が等しいと演繹できる場合に等しいと判断していました。インラインアセンブリ内で同じ内容で異なる長さのKeccak-256ハッシュを計算すると影響を受ける可能性がありました。コンパイル時に長さが定数でない場合や、常に32の倍数の長さの場合は影響を受けませんでした。",
         "link": "https://blog.soliditylang.org/2021/03/23/keccak-optimizer-bug/",
         "fixed": "0.8.3",
         "conditions": {
@@ -172,8 +172,8 @@
     {
         "uid": "SOL-2020-11",
         "name": "EmptyByteArrayCopy",
-        "summary": "Copying an empty byte array (or string) from memory or calldata to storage can result in data corruption if the target array's length is increased subsequently without storing new data.",
-        "description": "The routine that copies byte arrays from memory or calldata to storage stores unrelated data from after the source array in the storage slot if the source array is empty. If the storage array's length is subsequently increased either by using ``.push()`` or by assigning to its ``.length`` attribute (only before 0.6.0), the newly created byte array elements will not be zero-initialized, but contain the unrelated data. You are not affected if you do not assign to ``.length`` and do not use ``.push()`` on byte arrays, or only use ``.push(<arg>)`` or manually initialize the new elements.",
+        "summary": "メモリーまたはcalldataからストレージに空のバイト配列もしくは文字列をコピーすると、その後に新しいデータを保存せずにターゲットの配列の長さが増加した場合にデータ破損を起こす可能性。",
+        "description": "メモリーやcalldataからストレージにバイト配列をコピーするルーチンは、ソース配列が空の場合、ソース配列の後に無関係なデータをストレージスロットに格納します。その後、ストレージ配列の長さが、``.push()``を使用したり、``.length``属性(0.6.0よりも前のバージョン)で代入したりして増加すると、新しく作られたバイト配列要素がゼロで初期化されず、無関係なデータが含まれてしまいました。バイト配列において``.length``で代入しない、``.push()``を使用しない、``.push(<arg>)``のみの使用、マニュアルで新しい要素を初期化した場合には、影響がありませんでした。``.push()`` or by assigning to its ``.length`` attribute (only before 0.6.0), the newly created byte array elements will not be zero-initialized, but contain the unrelated data. You are not affected if you do not assign to ``.length`` and do not use ``.push()`` on byte arrays, or only use ``.push(<arg>)`` or manually initialize the new elements.",
         "link": "https://blog.soliditylang.org/2020/10/19/empty-byte-array-copy-bug/",
         "fixed": "0.7.4",
         "severity": "medium"
@@ -181,8 +181,8 @@
     {
         "uid": "SOL-2020-10",
         "name": "DynamicArrayCleanup",
-        "summary": "When assigning a dynamically-sized array with types of size at most 16 bytes in storage causing the assigned array to shrink, some parts of deleted slots were not zeroed out.",
-        "description": "Consider a dynamically-sized array in storage whose base-type is small enough such that multiple values can be packed into a single slot, such as `uint128[]`. Let us define its length to be `l`. When this array gets assigned from another array with a smaller length, say `m`, the slots between elements `m` and `l` have to be cleaned by zeroing them out. However, this cleaning was not performed properly. Specifically, after the slot corresponding to `m`, only the first packed value was cleaned up. If this array gets resized to a length larger than `m`, the indices corresponding to the unclean parts of the slot contained the original value, instead of 0. The resizing here is performed by assigning to the array `length`, by a `push()` or via inline assembly. You are not affected if you are only using `.push(<arg>)` or if you assign a value (even zero) to the new elements after increasing the length of the array.",
+        "summary": "ストレージのサイズが最大16バイトの型を持つ動的サイズの配列に代入すると、代入された配列が縮小され、削除されたスロットの一部がゼロ化されませんでした。",
+        "description": "例えば、`uint128[]`などの1つのスロットに複数の値をパックできる基本型が十分に小さい動的サイズの配列がストレージにあると考えてみましょう。配列の長さを`l`と定義します。この配列に対して、長さのがより短い別の配列が代入される場合に、要素`m`と`l`の間にあるスロットをゼロ化してクリーンにします。しかし、このクリーン処理が適切に行われていませんでした。具体的には、`m`に対応するスロットの後では、最初にパックされた値のみがクリーンされていました。この配列が`m`よりも大きい長さに変更された場合、スロットのクリーンされていない部分に対応するインデックスが0ではなく元の値が含まれていました。ここでのサイズ変更は、配列`length`への代入や、`push()`、インラインアセンブリによって行われます。`.push(<arg>)`のみを使用していたり、配列の長さを増やした後に新しい要素に値(0でも可)を代入した場合には影響はありません。",
         "link": "https://blog.soliditylang.org/2020/10/07/solidity-dynamic-array-cleanup-bug/",
         "fixed": "0.7.3",
         "severity": "medium"
