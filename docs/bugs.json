@@ -199,8 +199,8 @@
     {
         "uid": "SOL-2020-8",
         "name": "UsingForCalldata",
-        "summary": "Function calls to internal library functions with calldata parameters called via ``using for`` can result in invalid data being read.",
-        "description": "Function calls to internal library functions using the ``using for`` mechanism copied all calldata parameters to memory first and passed them on like that, regardless of whether it was an internal or an external call. Due to that, the called function would receive a memory pointer that is interpreted as a calldata pointer. Since dynamically sized arrays are passed using two stack slots for calldata, but only one for memory, this can lead to stack corruption. An affected library call will consider the JUMPDEST to which it is supposed to return as part of its arguments and will instead jump out to whatever was on the stack before the call.",
+        "summary": "``using for``経由で呼び出されるcalldataパラメータを持つ内部ライブラリ関数への関数呼び出しで無効なデータが読み取られる可能性。",
+        "description": "``using for``メカニズムを用いた内部ライブラリ関数への関数呼び出しは、内部(internal)呼び出しや外部(externa)呼び出しに関係なく、calldataパラメータのすべてを最初にメモリーにコピーしてから、そのパラメータをそのまま渡していました。その結果、呼び出された関数は、calldataポインターとして解釈されたメモリーポインターを受け取っていました。そのため、動的サイズの配列は、calldataに2つのスタックスロットを使用して渡しますが、メモリー用に1つのスタックスロットしか使用しないため、スタック破損につながる可能性がありました。このバグの影響を受けたライブラリ呼び出しは、JUMPDESTがその引数の一部として戻すと考えて、代わりに呼び出し前のスタック上にあるものにJUMPします。",
         "introduced": "0.6.9",
         "fixed": "0.6.10",
         "severity": "very low"
@@ -208,8 +208,8 @@
     {
         "uid": "SOL-2020-7",
         "name": "MissingEscapingInFormatting",
-        "summary": "String literals containing double backslash characters passed directly to external or encoding function calls can lead to a different string being used when ABIEncoderV2 is enabled.",
-        "description": "When ABIEncoderV2 is enabled, string literals passed directly to encoding functions or external function calls are stored as strings in the intermediate code. Characters outside the printable range are handled correctly, but backslashes are not escaped in this procedure. This leads to double backslashes being reduced to single backslashes and consequently re-interpreted as escapes potentially resulting in a different string being encoded.",
+        "summary": "2重のバックスラッシュ文字を含む文字列リテラルを直接外部(external)関数またはエンコーディング関数呼び出しに渡すと、ABIエンコーダーV2が有効な場合に異なる文字列が使用される可能性。",
+        "description": "ABIエンコーダーV2を有効化すると、エンコーディング関数呼び出しや外部(external)関数呼び出しで渡される文字列リテラルは、中間コード内で文字列として格納されます。プリント可能な範囲外の文字は、正しく処理されますが、この処理でバックスラッシュがエスケープされていませんでした。これにより、2重のバックスラッシュが1つのバックスラッシュになりエスケープとして解釈され、異なる文字列としてエンコードされる可能性がありました。",
         "introduced": "0.5.14",
         "fixed": "0.6.8",
         "severity": "very low",
@@ -220,8 +220,8 @@
     {
         "uid": "SOL-2020-6",
         "name": "ArraySliceDynamicallyEncodedBaseType",
-        "summary": "Accessing array slices of arrays with dynamically encoded base types (e.g. multi-dimensional arrays) can result in invalid data being read.",
-        "description": "For arrays with dynamically sized base types, index range accesses that use a start expression that is non-zero will result in invalid array slices. Any index access to such array slices will result in data being read from incorrect calldata offsets. Array slices are only supported for dynamic calldata types and all problematic type require ABIEncoderV2 to be enabled.",
+        "summary": "動的にエンコードされた基本型を持つ配列(例: 多次元配列)の配列スライスにアクセスすると無効なデータが読み取られる可能性。",
+        "description": "動的サイズの基本型を持つ配列の場合、非ゼロの開始式を使用したインデックスの範囲アクセスで無効な配列スライスを生成していました。そのような配列スライスへのインデックスアクセスは、誤ったcalldataのオフセットからデータを読み取っていました。配列スライスは、動的calldata型のみをサポートしており、すべての問題の型でABIエンコーダーV2が有効化されている必要があります。",
         "introduced": "0.6.0",
         "fixed": "0.6.8",
         "severity": "very low",
@@ -232,8 +232,8 @@
     {
         "uid": "SOL-2020-5",
         "name": "ImplicitConstructorCallvalueCheck",
-        "summary": "The creation code of a contract that does not define a constructor but has a base that does define a constructor did not revert for calls with non-zero value.",
-        "description": "Starting from Solidity 0.4.5 the creation code of contracts without explicit payable constructor is supposed to contain a callvalue check that results in contract creation reverting, if non-zero value is passed. However, this check was missing in case no explicit constructor was defined in a contract at all, but the contract has a base that does define a constructor. In these cases it is possible to send value in a contract creation transaction or using inline assembly without revert, even though the creation code is supposed to be non-payable.",
+        "summary": "コンストラクタを定義していないが、コンストラクタを定義している基底を持つコントラクトのコード作成で、非ゼロ値の呼び出しでリバートしない。",
+        "description": "Solidity 0.4.5以降の明示的なpayableコンストラクタを持たないコントラクト作成コードは、callvalueチェックが含まれます。これにより、非ゼロ値が渡された場合、コントラクト作成をリバートします。しかし、コンストラクタを定義している基底コントラクトを持っており、コントラクトに明示的なコンストラクタが定義されていないケースで、このチェックが全くされていませんでした。このようなケースでは、作成コードが非payableであっても、コントラクト作成トランザクションで値が送信可能だったり、インラインアセンブリでリバートしないで値を送信可能でした。",
         "introduced": "0.4.5",
         "fixed": "0.6.8",
         "severity": "very low"
