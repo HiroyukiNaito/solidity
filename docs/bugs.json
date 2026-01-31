@@ -628,8 +628,8 @@
     {
         "uid": "SOL-2016-1",
         "name": "AncientCompiler",
-        "summary": "This compiler version is ancient and might contain several undocumented or undiscovered bugs.",
-        "description": "The list of bugs is only kept for compiler versions starting from 0.3.0, so older versions might contain undocumented bugs.",
+        "summary": "このコンパイラのバージョンの世代が古いため、ドキュメント化されていないバグや未発見のバグを含んでいる可能性があります。",
+        "description": "このバグのリストには、コンパイラバージョン0.3.0からのバグをリストしています。そのため、古い世代のバージョンのドキュメント化されていないバグが含まれている可能性があります。",
         "severity": "high",
         "fixed": "0.3.0"
     }
