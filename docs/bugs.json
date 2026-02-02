@@ -241,8 +241,8 @@
     {
         "uid": "SOL-2020-4",
         "name": "TupleAssignmentMultiStackSlotComponents",
-        "summary": "Tuple assignments with components that occupy several stack slots, i.e. nested tuples, pointers to external functions or references to dynamically sized calldata arrays, can result in invalid values.",
-        "description": "Tuple assignments did not correctly account for tuple components that occupy multiple stack slots in case the number of stack slots differs between left-hand-side and right-hand-side. This can either happen in the presence of nested tuples or if the right-hand-side contains external function pointers or references to dynamic calldata arrays, while the left-hand-side contains an omission.",
+        "summary": "複数のスタックスロットを占有するコンポーネント(ネストされたタプル、外部関数へのポインター、動的サイズのcalldata配列参照)を持つタプルの代入で無効な値になる可能性。",
+        "description": "タプル代入で複数のスタックスロットを占有するタプルコンポーネントで左側と右側のスタックスロットが異なる場合に正しく扱われていませんでした。ネストされたタプルが存在する場合や、右側が外部関数ポインターや動的calldata配列の参照を含み左側に省略が含まれている場合に発生する可能性がありました。",
         "introduced": "0.1.6",
         "fixed": "0.6.6",
         "severity": "very low"
@@ -250,8 +250,8 @@
     {
         "uid": "SOL-2020-3",
         "name": "MemoryArrayCreationOverflow",
-        "summary": "The creation of very large memory arrays can result in overlapping memory regions and thus memory corruption.",
-        "description": "No runtime overflow checks were performed for the length of memory arrays during creation. In cases for which the memory size of an array in bytes, i.e. the array length times 32, is larger than 2^256-1, the memory allocation will overflow, potentially resulting in overlapping memory areas. The length of the array is still stored correctly, so copying or iterating over such an array will result in out-of-gas.",
+        "summary": "T非常に大きなメモリ配列の作成で、メモリ領域を上書きすることによりメモリが破損する可能性。",
+        "description": "メモリー配列作成時に、メモリー配列の長さに対するランタイムオーバーフローチェックが実行されていませんでした。バイト単位のメモリー配列サイズ(配列の長さ掛ける32)が^256-1よりも大きくなると、メモリー割り当てがオーバーフローを起こし、メモリー領域が上書きされる可能性がありました。配列の長さは、依然として正しく保存されているため、この配列でコピーやイテレーションをするとガス不足が発生します。",
         "link": "https://blog.soliditylang.org/2020/04/06/memory-creation-overflow-bug/",
         "introduced": "0.2.0",
         "fixed": "0.6.5",
@@ -260,8 +260,8 @@
     {
         "uid": "SOL-2020-1",
         "name": "YulOptimizerRedundantAssignmentBreakContinue",
-        "summary": "The Yul optimizer can remove essential assignments to variables declared inside for loops when Yul's continue or break statement is used. You are unlikely to be affected if you do not use inline assembly with for loops and continue and break statements.",
-        "description": "The Yul optimizer has a stage that removes assignments to variables that are overwritten again or are not used in all following control-flow branches. This logic incorrectly removes such assignments to variables declared inside a for loop if they can be removed in a control-flow branch that ends with ``break`` or ``continue`` even though they cannot be removed in other control-flow branches. Variables declared outside of the respective for loop are not affected.",
+        "summary": "Yulのcontinueやbreakステートメントが使用されている場合、forループの内側で宣言された必要な変数への代入がYulオプティマイザーによって削除される可能性。",
+        "description": "Yulオプティマイザーには、再度上書きされる変数や後続の制御フローのブランチで使用されなくなった変数を削除するステージがあります。このロジックは、他の制御フローブランチで削除できないのにも関わらず、``break``や``continue``で終わると、その制御フローブランチにおいて削除できる場合に誤って削除してしまいます。各forループの外側で宣言された変数は、影響を受けません。",
         "introduced": "0.6.0",
         "fixed": "0.6.1",
         "severity": "medium",
@@ -272,8 +272,8 @@
     {
         "uid": "SOL-2020-2",
         "name": "privateCanBeOverridden",
-        "summary": "Private methods can be overridden by inheriting contracts.",
-        "description": "While private methods of base contracts are not visible and cannot be called directly from the derived contract, it is still possible to declare a function of the same name and type and thus change the behaviour of the base contract's function.",
+        "summary": "privateメソッドが継承するコントラクトによって上書きされる",
+        "description": "基底コントラクトのprivateメソッドには可視性がなく、派生したコントラクトから直接呼び出すことはできませんが、同じ名前と型の関数を宣言して、基底コントラクトの関数の動作を変更することができました。",
         "introduced": "0.3.0",
         "fixed": "0.5.17",
         "severity": "low"
