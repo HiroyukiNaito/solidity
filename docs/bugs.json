@@ -250,7 +250,7 @@
     {
         "uid": "SOL-2020-3",
         "name": "MemoryArrayCreationOverflow",
-        "summary": "T非常に大きなメモリ配列の作成で、メモリ領域を上書きすることによりメモリが破損する可能性。",
+        "summary": "非常に大きなメモリー配列の作成で、メモリー領域を上書きすることによりメモリーが破損する可能性。",
         "description": "メモリー配列作成時に、メモリー配列の長さに対するランタイムオーバーフローチェックが実行されていませんでした。バイト単位のメモリー配列サイズ(配列の長さ掛ける32)が^256-1よりも大きくなると、メモリー割り当てがオーバーフローを起こし、メモリー領域が上書きされる可能性がありました。配列の長さは、依然として正しく保存されているため、この配列でコピーやイテレーションをするとガス不足が発生します。",
         "link": "https://blog.soliditylang.org/2020/04/06/memory-creation-overflow-bug/",
         "introduced": "0.2.0",
@@ -543,8 +543,8 @@
     {
         "uid": "SOL-2016-10",
         "name": "OptimizerStateKnowledgeNotResetForJumpdest",
-        "summary": "The optimizer did not properly reset its internal state at jump destinations, which could lead to data corruption.",
-        "description": "The optimizer performs symbolic execution at certain stages. At jump destinations, multiple code paths join and thus it has to compute a common state from the incoming edges. Computing this common state was simplified to just use the empty state, but this implementation was not done properly. This bug can cause data corruption.",
+        "summary": "Tオプティマイザーが適切にJUMP先の内部状態をリセットしなかったため、データ破損する可能性。",
+        "description": "オプティマイザーは、特定のステージでシンボリック実行を行います。ジャンプ先では、複数のコードパスが合流するため、入力エッジからの共通状態を計算する必要があります。この共通状態の計算は、空の状態を使用するように簡略化されていました。しかし、この実装が適切に行われていませんでした。このバグはデータ破損を起こす可能性がありました。",
         "severity": "medium",
         "introduced": "0.4.5",
         "fixed": "0.4.6",
@@ -555,8 +555,8 @@
     {
         "uid": "SOL-2016-9",
         "name": "HighOrderByteCleanStorage",
-        "summary": "For short types, the high order bytes were not cleaned properly and could overwrite existing data.",
-        "description": "Types shorter than 32 bytes are packed together into the same 32 byte storage slot, but storage writes always write 32 bytes. For some types, the higher order bytes were not cleaned properly, which made it sometimes possible to overwrite a variable in storage when writing to another one.",
+        "summary": "短い型で上位バイトが適切にクリーンされておらず、既存のデータを上書きする可能性。",
+        "description": "32バイト未満の型は、同一の32バイトのストレージスロットにパックされ、ストレージの書き込みは常に32バイト単位で行われます。一部の型では、上位バイトが適切にクリーンされておらず、別の変数に書き込む際にストレージにある変数を上書きする可能性がありました。",
         "link": "https://blog.soliditylang.org/2016/11/01/security-alert-solidity-variables-can-overwritten-storage/",
         "severity": "high",
         "introduced": "0.1.6",
@@ -565,8 +565,8 @@
     {
         "uid": "SOL-2016-8",
         "name": "OptimizerStaleKnowledgeAboutSHA3",
-        "summary": "The optimizer did not properly reset its knowledge about SHA3 operations resulting in some hashes (also used for storage variable positions) not being calculated correctly.",
-        "description": "The optimizer performs symbolic execution in order to save re-evaluating expressions whose value is already known. This knowledge was not properly reset across control flow paths and thus the optimizer sometimes thought that the result of a SHA3 operation is already present on the stack. This could result in data corruption by accessing the wrong storage slot.",
+        "summary": "オプティマイザーは、SHA3演算に関する情報を適切にリセットしなかったため、一部のハッシュ(ストレージ変数のポジションの計算でも使用)で誤った計算がされていました。",
+        "description": "オプティマイザーは、既知の値がある式の再評価を省略するためにシンボリック実行を行います。この情報が制御フローパスの間で正しくリセットされていなかったため、オプティマイザーはSHA3演算が既にスタック上に存在していると誤認識することがありました。これにより、誤ったストレージスロットにアクセスしてデータ破損が発生する可能性がありました。",
         "severity": "medium",
         "fixed": "0.4.3",
         "conditions": {
@@ -576,8 +576,8 @@
     {
         "uid": "SOL-2016-7",
         "name": "LibrariesNotCallableFromPayableFunctions",
-        "summary": "Library functions threw an exception when called from a call that received Ether.",
-        "description": "Library functions are protected against sending them Ether through a call. Since the DELEGATECALL opcode forwards the information about how much Ether was sent with a call, the library function incorrectly assumed that Ether was sent to the library and threw an exception.",
+        "summary": "ライブラリ関数がEtherの受け取りによる呼び出しによって呼び出された場合、例外をスローしていました。",
+        "description": "ライブラリ関数は、呼び出しを通してライブラリにEtherが送信されないように保護されています。DELEGATECALLオペコードは、呼び出しによって送信されたEtherの金額情報を転送するため、ライブラリ関数は誤ってライブラリにEtherが送信されたと想定し、例外をスローしていました。",
         "severity": "low",
         "introduced": "0.4.0",
         "fixed": "0.4.2"
@@ -585,24 +585,24 @@
     {
         "uid": "SOL-2016-6",
         "name": "SendFailsForZeroEther",
-        "summary": "The send function did not provide enough gas to the recipient if no Ether was sent with it.",
-        "description": "The recipient of an Ether transfer automatically receives a certain amount of gas from the EVM to handle the transfer. In the case of a zero-transfer, this gas is not provided which causes the recipient to throw an exception.",
+        "summary": "send関数でEtherを一緒に送信しなかった場合、必要なガスを受信者に提供しませんでした。",
+        "description": "Ether送信で受信者は自動的に一定量のガスをEVMから受け取って送信の処理をします。ゼロ送信の場合、このガスが提供されず受信者で例外をスローしていました。",
         "severity": "low",
         "fixed": "0.4.0"
     },
     {
         "uid": "SOL-2016-5",
         "name": "DynamicAllocationInfiniteLoop",
-        "summary": "Dynamic allocation of an empty memory array caused an infinite loop and thus an exception.",
-        "description": "Memory arrays can be created provided a length. If this length is zero, code was generated that did not terminate and thus consumed all gas.",
+        "summary": "空のメモリー配列の動的割り当てによって、無限ループが起こり例外が発生。",
+        "description": "メモリー配列は長さを指定して作成することができます。長さがゼロの場合、終了しないコードが作成されガスをすべて消費します。",
         "severity": "low",
         "fixed": "0.3.6"
     },
     {
         "uid": "SOL-2016-4",
         "name": "OptimizerClearStateOnCodePathJoin",
-        "summary": "The optimizer did not properly reset its internal state at jump destinations, which could lead to data corruption.",
-        "description": "The optimizer performs symbolic execution at certain stages. At jump destinations, multiple code paths join and thus it has to compute a common state from the incoming edges. Computing this common state was not done correctly. This bug can cause data corruption, but it is probably quite hard to use for targeted attacks.",
+        "summary": "Tオプティマイザーは、JUMP先の内部状態を適切にリセットしておらず、データ破損を起こす可能性。",
+        "description": "オプティマイザーは、特定のステージでシンボリック実行を行います。JUMP先で複数のコードパスが合流するため、入力エッジからの共通の状態を計算する必要があります。この共通の状態の計算が正しく行われていませんでした。このバグは、攻撃ターゲットに使用するのは非常に困難ですが、データ破損が起こす可能性がありました。",
         "severity": "low",
         "fixed": "0.3.6",
         "conditions": {
@@ -612,16 +612,16 @@
     {
         "uid": "SOL-2016-3",
         "name": "CleanBytesHigherOrderBits",
-        "summary": "The higher order bits of short bytesNN types were not cleaned before comparison.",
-        "description": "Two variables of type bytesNN were considered different if their higher order bits, which are not part of the actual value, were different. An attacker might use this to reach seemingly unreachable code paths by providing incorrectly formatted input data.",
+        "summary": "短いbytesNN型の上位ビットは、比較前にクリーンされていませんでした。",
+        "description": "byteNN型の2つの変数で実際の値の一部ではない上位ビットが異なる場合は、異なる変数だと見なされます。攻撃者は、これを利用して間違った形式の入力データを提供して、到達不可能なコードパスに到達する可能性がありました。",
         "severity": "medium/high",
         "fixed": "0.3.3"
     },
     {
         "uid": "SOL-2016-2",
         "name": "ArrayAccessCleanHigherOrderBits",
-        "summary": "Access to array elements for arrays of types with less than 32 bytes did not correctly clean the higher order bits, causing corruption in other array elements.",
-        "description": "Multiple elements of an array of values that are shorter than 17 bytes are packed into the same storage slot. Writing to a single element of such an array did not properly clean the higher order bytes and thus could lead to data corruption.",
+        "summary": "32バイト以下である配列型の配列要素にアクセスにおいて上位ビットが正しくクリーンされていないため他の配列要素の破損を起こしていました。",
+        "description": "17バイト未満の値を持つ配列の複数の要素は、同一のストレージスロットにパックされます。その配列の1つの要素への書き込みでは、上位バイトが適切にクリーンされず、データ破損を起こす可能性がありました。",
         "severity": "medium/high",
         "fixed": "0.3.1"
     },
