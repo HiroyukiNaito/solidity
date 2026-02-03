@@ -490,16 +490,16 @@
     {
         "uid": "SOL-2017-5",
         "name": "ZeroFunctionSelector",
-        "summary": "It is possible to craft the name of a function such that it is executed instead of the fallback function in very specific circumstances.",
-        "description": "If a function has a selector consisting only of zeros, is payable and part of a contract that does not have a fallback function and at most five external functions in total, this function is called instead of the fallback function if Ether is sent to the contract without data.",
+        "summary": "非常に特殊な状況においてfallback関数の代わりに実行される関数の名前を作成することができる。",
+        "description": "ゼロでのみ構成されるセレクタを持つ関数で、payable関数かつfallback関数を持たない合計最大5つの外部関数を持つコントラクトの一部である場合、このコントラクトにデータなしでEtherを送信すると、fallback関数ではなく、この関数が呼び出されます。",
         "fixed": "0.4.18",
         "severity": "very low"
     },
     {
         "uid": "SOL-2017-4",
         "name": "DelegateCallReturnValue",
-        "summary": "The low-level .delegatecall() does not return the execution outcome, but converts the value returned by the functioned called to a boolean instead.",
-        "description": "The return value of the low-level .delegatecall() function is taken from a position in memory, where the call data or the return data resides. This value is interpreted as a boolean and put onto the stack. This means if the called function returns at least 32 zero bytes, .delegatecall() returns false even if the call was successful.",
+        "summary": "低レベルの.delegatecall()が実行結果を返さず、変わりに関数呼び出しによって返された値をブール値に変換。",
+        "description": "低レベルの.delegatecall()の戻り値は、メモリーにある呼び出しデータまたは戻りデータがあるポジションから取り出されます。この値は、ブール値として解釈され、スタックに格納されます。つまり、呼び出された関数が最低でも32個のゼロバイトを返す場合、.delegatecall()は、その呼び出しが成功していてもfalseを返します。",
         "introduced": "0.3.0",
         "fixed": "0.4.15",
         "severity": "low"
@@ -507,24 +507,24 @@
     {
         "uid": "SOL-2017-3",
         "name": "ECRecoverMalformedInput",
-        "summary": "The ecrecover() builtin can return garbage for malformed input.",
-        "description": "The ecrecover precompile does not properly signal failure for malformed input (especially in the 'v' argument) and thus the Solidity function can return data that was previously present in the return area in memory.",
+        "summary": "ecrecover()組み込み関数が不正にフォーマットされた入力でゴミを返す可能性。",
+        "description": "ecrecoverプリコンパイルは、不正にフォーマットされた入力(特に`v`引数)に対して失敗を適切に通知していなかったため、Solidity関数がメモリーの戻り値領域に以前存在したデータを返す可能性がありました。",
         "fixed": "0.4.14",
         "severity": "medium"
     },
     {
         "uid": "SOL-2017-2",
         "name": "SkipEmptyStringLiteral",
-        "summary": "If \"\" is used in a function call, the following function arguments will not be correctly passed to the function.",
-        "description": "If the empty string literal \"\" is used as an argument in a function call, it is skipped by the encoder. This has the effect that the encoding of all arguments following this is shifted left by 32 bytes and thus the function call data is corrupted.",
+        "summary": "関数呼び出しで\"\"を使用すると、後続の関数引数が関数に正しく渡されない。",
+        "description": "関数呼び出しの引数で空の文字列リテラルである\"\"が使用されると、エンコーダーがスキップしてしまいます。これにより、続く引数のエンコードディングが32バイト左にシフトされてしまい、関数呼び出しデータが破損します。",
         "fixed": "0.4.12",
         "severity": "low"
     },
     {
         "uid": "SOL-2017-1",
         "name": "ConstantOptimizerSubtraction",
-        "summary": "In some situations, the optimizer replaces certain numbers in the code with routines that compute different numbers.",
-        "description": "The optimizer tries to represent any number in the bytecode by routines that compute them with less gas. For some special numbers, an incorrect routine is generated. This could allow an attacker to e.g. trick victims about a specific amount of ether, or function calls to call different functions (or none at all).",
+        "summary": "特定の状況でオプティマイザーがコードにある数値を異なる数値を計算するルーチンに置き換える。",
+        "description": "オプティマイザーは、バイトコードにある任意の数値を少ないガスで計算できるルーチンによって表現しようとします。一部の特別な数値では、誤ったルーチンが生成されます。これにより、攻撃者は被害者に対してEtherの量を騙したり、関数呼び出しで異なる関数を呼び出す(または関数を呼び出さない)ことができます。",
         "link": "https://blog.soliditylang.org/2017/05/03/solidity-optimizer-bug/",
         "fixed": "0.4.11",
         "severity": "low",
@@ -535,15 +535,15 @@
     {
         "uid": "SOL-2016-11",
         "name": "IdentityPrecompileReturnIgnored",
-        "summary": "Failure of the identity precompile was ignored.",
-        "description": "Calls to the identity contract, which is used for copying memory, ignored its return value. On the public chain, calls to the identity precompile can be made in a way that they never fail, but this might be different on private chains.",
+        "summary": "アイデンティティのプリコンパイルの失敗が無視される。",
+        "description": "メモリーのコピーに使用されるアイデンティティコントラクトの呼び出しで、戻り値が無視されていました。パブリックチェーンでは、アイデンティティプリコンパイルへの呼び出しが失敗しように行われますが、プライベートチェーンでは、その動作が異なる可能性がありました。",
         "severity": "low",
         "fixed": "0.4.7"
     },
     {
         "uid": "SOL-2016-10",
         "name": "OptimizerStateKnowledgeNotResetForJumpdest",
-        "summary": "Tオプティマイザーが適切にJUMP先の内部状態をリセットしなかったため、データ破損する可能性。",
+        "summary": "オプティマイザーが適切にJUMP先の内部状態をリセットしなかったため、データ破損する可能性。",
         "description": "オプティマイザーは、特定のステージでシンボリック実行を行います。ジャンプ先では、複数のコードパスが合流するため、入力エッジからの共通状態を計算する必要があります。この共通状態の計算は、空の状態を使用するように簡略化されていました。しかし、この実装が適切に行われていませんでした。このバグはデータ破損を起こす可能性がありました。",
         "severity": "medium",
         "introduced": "0.4.5",
