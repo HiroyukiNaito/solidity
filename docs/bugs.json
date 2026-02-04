@@ -354,8 +354,8 @@
     {
         "uid": "SOL-2019-5",
         "name": "UninitializedFunctionPointerInConstructor",
-        "summary": "Calling uninitialized internal function pointers created in the constructor does not always revert and can cause unexpected behaviour.",
-        "description": "Uninitialized internal function pointers point to a special piece of code that causes a revert when called. Jump target positions are different during construction and after deployment, but the code for setting this special jump target only considered the situation after deployment.",
+        "summary": "コンストラクタで作成された初期化されていない内部関数ポインターを呼び出すとリバートしないで予期しない動作が発生する可能性。",
+        "description": "初期化されていない内部関数ポインターは、呼び出されるとリバートを起こす特別なコードをポイントしています。JUMPターゲットのポジションは、構築中とデプロイ後で異なります。しかし、特別なJUMPターゲットを設定するコードでは、デプロイ後の状況のみを考慮していました。",
         "introduced": "0.5.0",
         "fixed": "0.5.8",
         "severity": "very low"
@@ -363,8 +363,8 @@
     {
         "uid": "SOL-2019-5",
         "name": "UninitializedFunctionPointerInConstructor_0.4.x",
-        "summary": "Calling uninitialized internal function pointers created in the constructor does not always revert and can cause unexpected behaviour.",
-        "description": "Uninitialized internal function pointers point to a special piece of code that causes a revert when called. Jump target positions are different during construction and after deployment, but the code for setting this special jump target only considered the situation after deployment.",
+        "summary": "コンストラクタで作成された初期化されていない内部関数ポインターを呼び出すとリバートしないで予期しない動作が発生する可能性。",
+        "description": "初期化されていない内部関数ポインターは、呼び出されるとリバートを起こす特別なコードをポイントしています。JUMPターゲットのポジションは、構築中とデプロイ後で異なります。しかし、特別なJUMPターゲットを設定するコードでは、デプロイ後の状況のみを考慮していました。",
         "introduced": "0.4.5",
         "fixed": "0.4.26",
         "severity": "very low"
@@ -372,8 +372,8 @@
     {
         "uid": "SOL-2019-4",
         "name": "IncorrectEventSignatureInLibraries",
-        "summary": "Contract types used in events in libraries cause an incorrect event signature hash",
-        "description": "Instead of using the type `address` in the hashed signature, the actual contract name was used, leading to a wrong hash in the logs.",
+        "summary": "ライブラリのイベントで使用されるコントラクト型で誤ったイベント・シグネチャ・ハッシュが生成される。",
+        "description": "ハッシュシグネチャで`address`型を使用しないで実際のコントラクト名が使用されていたため、ログに間違ったハッシュが記録されていました。",
         "introduced": "0.5.0",
         "fixed": "0.5.8",
         "severity": "very low"
@@ -381,8 +381,8 @@
     {
         "uid": "SOL-2019-4",
         "name": "IncorrectEventSignatureInLibraries_0.4.x",
-        "summary": "Contract types used in events in libraries cause an incorrect event signature hash",
-        "description": "Instead of using the type `address` in the hashed signature, the actual contract name was used, leading to a wrong hash in the logs.",
+        "summary": "ライブラリのイベントで使用されるコントラクト型で誤ったイベント・シグネチャ・ハッシュが生成される。",
+        "description": "ハッシュシグネチャで`address`型を使用しないで実際のコントラクト名が使用されていたため、ログに間違ったハッシュが記録されていました。",
         "introduced": "0.3.0",
         "fixed": "0.4.26",
         "severity": "very low"
@@ -390,8 +390,8 @@
     {
         "uid": "SOL-2019-3",
         "name": "ABIEncoderV2PackedStorage",
-        "summary": "Storage structs and arrays with types shorter than 32 bytes can cause data corruption if encoded directly from storage using the experimental ABIEncoderV2.",
-        "description": "Elements of structs and arrays that are shorter than 32 bytes are not properly decoded from storage when encoded directly (i.e. not via a memory type) using ABIEncoderV2. This can cause corruption in the values themselves but can also overwrite other parts of the encoded data.",
+        "summary": "32バイトよりも短い型を持つストレージ構造体とストレージ配列で、実験的なABIEncoderV2を使用してストレージから直接エンコードされるとデータ破損を引き起こす可能性。",
+        "description": "32バイトよりも短い構造体や配列の要素は、ABIEncoderV2を使用して(メモリを経由せずに)直接エンコードされた場合に適切にストレージからデコードされていませんでした。これにより、値自体が破損するだけでなく、他の部分にあるエンコードされたデータを上書きする可能性があります。",
         "link": "https://blog.soliditylang.org/2019/03/26/solidity-optimizer-and-abiencoderv2-bug/",
         "introduced": "0.5.0",
         "fixed": "0.5.7",
@@ -403,8 +403,8 @@
     {
         "uid": "SOL-2019-3",
         "name": "ABIEncoderV2PackedStorage_0.4.x",
-        "summary": "Storage structs and arrays with types shorter than 32 bytes can cause data corruption if encoded directly from storage using the experimental ABIEncoderV2.",
-        "description": "Elements of structs and arrays that are shorter than 32 bytes are not properly decoded from storage when encoded directly (i.e. not via a memory type) using ABIEncoderV2. This can cause corruption in the values themselves but can also overwrite other parts of the encoded data.",
+        "summary": "32バイトよりも短い型を持つストレージ構造体とストレージ配列で、実験的なABIEncoderV2を使用してストレージから直接エンコードされるとデータ破損を引き起こす可能性。",
+        "description": "32バイトよりも短い構造体や配列の要素は、ABIEncoderV2を使用して(メモリを経由せずに)直接エンコードされた場合に適切にストレージからデコードされていませんでした。これにより、値自体が破損するだけでなく、他の部分にあるエンコードされたデータを上書きする可能性があります。",
         "link": "https://blog.soliditylang.org/2019/03/26/solidity-optimizer-and-abiencoderv2-bug/",
         "introduced": "0.4.19",
         "fixed": "0.4.26",
@@ -416,8 +416,8 @@
     {
         "uid": "SOL-2019-2",
         "name": "IncorrectByteInstructionOptimization",
-        "summary": "The optimizer incorrectly handles byte opcodes whose second argument is 31 or a constant expression that evaluates to 31. This can result in unexpected values.",
-        "description": "The optimizer incorrectly handles byte opcodes that use the constant 31 as second argument. This can happen when performing index access on bytesNN types with a compile-time constant value (not index) of 31 or when using the byte opcode in inline assembly.",
+        "summary": "オプティマイザーは、バイトオペコードで2つ目の引数が31または31と評価する定数式を誤って処理し、予期しない値が生成される可能性。",
+        "description": "オプティマイザーは、定数31を2番目の引数として使用するバイトオペコードを誤って処理します。コンパイル時の定数値31(インデックスではない)を持つbytesNN型のインデックスアクセスを実行するとき、またはインラインアセンブリでバイトオペコードを使用する場合に、このバグが発生する可能性があります。",
         "link": "https://blog.soliditylang.org/2019/03/26/solidity-optimizer-and-abiencoderv2-bug/",
         "introduced": "0.5.5",
         "fixed": "0.5.7",
@@ -429,8 +429,8 @@
     {
         "uid": "SOL-2019-1",
         "name": "DoubleShiftSizeOverflow",
-        "summary": "Double bitwise shifts by large constants whose sum overflows 256 bits can result in unexpected values.",
-        "description": "Nested logical shift operations whose total shift size is 2**256 or more are incorrectly optimized. This only applies to shifts by numbers of bits that are compile-time constant expressions.",
+        "summary": "合計で256ビットをオーバーフローする巨大な定数でビットシフトを2回行うと、予期しない値になる可能性。",
+        "description": "合計のシフトサイズが2**256以上のネストされた論理シフト演算で誤った最適化がされます。このバグは、コンパイル時に定数式のビット数によるシフトのみで発生します。",
         "link": "https://blog.soliditylang.org/2019/03/26/solidity-optimizer-and-abiencoderv2-bug/",
         "introduced": "0.5.5",
         "fixed": "0.5.6",
@@ -443,8 +443,8 @@
     {
         "uid": "SOL-2018-4",
         "name": "ExpExponentCleanup",
-        "summary": "Using the ** operator with an exponent of type shorter than 256 bits can result in unexpected values.",
-        "description": "Higher order bits in the exponent are not properly cleaned before the EXP opcode is applied if the type of the exponent expression is smaller than 256 bits and not smaller than the type of the base. In that case, the result might be larger than expected if the exponent is assumed to lie within the value range of the type. Literal numbers as exponents are unaffected as are exponents or bases of type uint256.",
+        "summary": "256ビットよりも短い型の指数で「**」演算子を使用すると、予期しない値になる可能性。",
+        "description": "指数式の型が256ビット未満、指数の上位ビットが基数の型よりも小さくない場合、EXPオペコードが適用される前に上位ビットが適切にクリーンされません。このケースでは、指数が型の値の範囲内にあると想定される場合、結果が予期したものよりも大きくなる可能性があります。指数としてのリテラル数値は、uint256型の基数またはunit256型の指数と同様に影響を受けません。",
         "link": "https://blog.soliditylang.org/2018/09/13/solidity-bugfix-release/",
         "fixed": "0.4.25",
         "severity": "medium/high",
@@ -455,8 +455,8 @@
     {
         "uid": "SOL-2018-3",
         "name": "EventStructWrongData",
-        "summary": "Using structs in events logged wrong data.",
-        "description": "If a struct is used in an event, the address of the struct is logged instead of the actual data.",
+        "summary": "イベントで構造体を使用すると間違ったデータをログに記録される。",
+        "description": "イベントで構造体が使用されている場合、実際のデータではなく構造体のアドレスがログに記録される。",
         "link": "https://blog.soliditylang.org/2018/09/13/solidity-bugfix-release/",
         "introduced": "0.4.17",
         "fixed": "0.4.25",
@@ -468,8 +468,8 @@
     {
         "uid": "SOL-2018-2",
         "name": "NestedArrayFunctionCallDecoder",
-        "summary": "Calling functions that return multi-dimensional fixed-size arrays can result in memory corruption.",
-        "description": "If Solidity code calls a function that returns a multi-dimensional fixed-size array, array elements are incorrectly interpreted as memory pointers and thus can cause memory corruption if the return values are accessed. Calling functions with multi-dimensional fixed-size arrays is unaffected as is returning fixed-size arrays from function calls. The regular expression only checks if such functions are present, not if they are called, which is required for the contract to be affected.",
+        "summary": "C多次元の固定サイズ配列を返す関数の呼び出しでメモリー破損が発生する可能性。",
+        "description": "Solidityコードが、多次元の固定サイズの配列を返す関数を呼び出す場合、配列要素が誤ってメモリーポインターとして解釈され、戻り値にアクセスするとメモリー破損が発生する可能性があります。多次元の固定サイズ配列を持つ関数の呼び出しでは、関数の呼び出しで固定サイズの配列を返すため影響を受けません。正規表現でこのような関数が存在するかどうかのみを確認しており、コントラクトの作用で必要となる呼び出されるかどうかの確認をしていませんでした。",
         "link": "https://blog.soliditylang.org/2018/09/13/solidity-bugfix-release/",
         "introduced": "0.1.4",
         "fixed": "0.4.22",
@@ -481,8 +481,8 @@
     {
         "uid": "SOL-2018-1",
         "name": "OneOfTwoConstructorsSkipped",
-        "summary": "If a contract has both a new-style constructor (using the constructor keyword) and an old-style constructor (a function with the same name as the contract) at the same time, one of them will be ignored.",
-        "description": "If a contract has both a new-style constructor (using the constructor keyword) and an old-style constructor (a function with the same name as the contract) at the same time, one of them will be ignored. There will be a compiler warning about the old-style constructor, so contracts only using new-style constructors are fine.",
+        "summary": "コントラクトに新しい形式のコンストラクタ(constructorキーワードの使用)と古い形式のコンストラクタ(コントラクトと同じ名前を持つ関数)両方が含まれている場合、そのうちの1つが無視される。",
+        "description": "コントラクトに新しい形式のコンストラクタ(constructorキーワードを使用)と古い形式のコンストラクタ(コントラクトと同じ名前を持つ関数)両方を持っていると、どちらか一方が無視されます。古い形式のコンストラクタを書くと、警告が発せられます。新しい形式のコンストラクタのみ使用しているコントラクトでは問題は発生しません。",
         "introduced": "0.4.22",
         "fixed": "0.4.23",
         "severity": "very low"
